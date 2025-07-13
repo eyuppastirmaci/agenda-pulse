@@ -1,0 +1,58 @@
+# === Global IDE / OS / Editor artifacts ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.iml
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# === api-gateway ===
+/apps/backend/api-gateway/target/
+/apps/backend/api-gateway/.idea/
+/apps/backend/api-gateway/*.iml
+/apps/backend/api-gateway/*.log
+/apps/backend/api-gateway/src/main/resources/application.yml
+
+# === auth-service ===
+/apps/backend/auth-service/target/
+/apps/backend/auth-service/.idea/
+/apps/backend/auth-service/*.iml
+/apps/backend/auth-service/*.log
+/apps/backend/auth-service/src/main/resources/application.yml
+
+# === webui ===
+/apps/frontend/webui/node_modules/
+/apps/frontend/webui/.next/
+/apps/frontend/webui/out/
+/apps/frontend/webui/.env.local
+/apps/frontend/webui/.env.development.local
+/apps/frontend/webui/.env.production.local
+/apps/frontend/webui/.env.test.local
+/apps/frontend/webui/npm-debug.log*
+/apps/frontend/webui/yarn-debug.log*
+/apps/frontend/webui/yarn-error.log*
+/apps/frontend/webui/.pnpm-debug.log*
+
+# === common-model ===
+/libs/java/common-model/target/
+/libs/java/common-model/.idea/
+/libs/java/common-model/*.iml
+/libs/java/common-model/*.log
+
+# === Test reports and coverage ===
+**/test-output/
+/**/surefire-reports/
+/**/jacoco.exec
+**/coverage/
+/**/.nyc_output/
+
+# === Docker / Compose artifacts ===
+*.pid
+*.seed
+*.pid.lock
+.env
+docker-compose.override.yml
