@@ -24,6 +24,13 @@ Thumbs.db
 /apps/backend/auth-service/*.log
 /apps/backend/auth-service/src/main/resources/application.yml
 
+# === task-service ===
+/apps/backend/task-service/target/
+/apps/backend/task-service/.idea/
+/apps/backend/task-service/*.iml
+/apps/backend/task-service/*.log
+/apps/backend/task-service/src/main/resources/application.yml
+
 # === webui ===
 /apps/frontend/webui/node_modules/
 /apps/frontend/webui/.next/

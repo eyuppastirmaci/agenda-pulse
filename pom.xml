@@ -37,5 +37,6 @@
         <module>libs/java/common-model</module>
         <module>apps/backend/auth-service</module>
         <module>apps/backend/api-gateway</module>
+        <module>apps/backend/task-service</module>
     </modules>
 </project>

@@ -1,40 +1,42 @@
-# 🚀 AgendaPulse
+# AgendaPulse
 
-AgendaPulse is a lightweight, self-hosted productivity tool for individuals and small teams to manage calendars, tasks, and notifications.  
+AgendaPulse is a lightweight, self-hosted productivity tool for individuals and small teams to manage calendars, tasks, and notifications.
+
 It is built using a modular microservice architecture and modern frontend technologies.
-
-The project aims to deliver useful GTD (Get Things Done) features with minimal overhead and great extensibility.
 
 ---
 
 ## 📋 Development Roadmap
 
-- ✅ API Gateway and health checks  
-- ✅ User authentication (signup/login) with JWT  
-- ☐ Task management (CRUD + Kafka events)  
-- ☐ Calendar event creation & reminders  
-- ☐ Notification delivery system (email, WebSocket, push)  
-- ☐ Admin dashboard and user profile  
-- ☐ Docker Compose + Jenkins CI/CD pipeline  
+- ✅ API Gateway and health checks
+- ✅ User authentication (signup/login) with JWT
+- ✅ Task management (CRUD + Kafka events)
+- ☐ Calendar event creation & reminders
+- ☐ Notification delivery system (email, WebSocket, push)
+- ☐ Admin dashboard and user profile
+- ☐ Docker Compose + Jenkins CI/CD pipeline
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### 🔧 Backend
+
 - Java 21, Spring Boot 3.5
 - Spring Security, JPA, Actuator
 - PostgreSQL
-- Apache Kafka (planned)
+- Apache Kafka
 - Spring Cloud Gateway
 
 ### 🎨 Frontend
+
 - Next.js 14 (App Router)
 - TypeScript, Tailwind CSS
 - NextAuth.js
 
 ### 🚀 DevOps
-- Docker, Docker Compose (planned)
+
+- Docker, Docker Compose
 - Jenkins (planned)
 - Prometheus, Grafana (planned)
 
@@ -45,8 +47,8 @@ The project aims to deliver useful GTD (Get Things Done) features with minimal o
 - Java 21+
 - Node.js 18+
 - PostgreSQL
-- Docker & Docker Compose (planned)
-- Apache Kafka (planned)
+- Docker & Docker Compose
+- Apache Kafka
 
 ---
 
@@ -76,6 +78,16 @@ cd apps/backend/auth-service
 cp src/main/resources/application.example.yml src/main/resources/application.yml
 ```
 
+#### 📅 Task Service Configuration
+
+```bash
+# Navigate to task service directory
+cd apps/backend/task-service
+
+# Copy example configuration
+cp src/main/resources/application.example.yml src/main/resources/application.yml
+```
+
 ---
 
 ### 🎨 Frontend `.env` configuration
@@ -96,31 +108,19 @@ cp .env.example .env.local
 
 ## 🚀 Getting Started
 
-### 1. 🗄️ Install PostgreSQL
-
-Install PostgreSQL on your computer or run it with Docker (recommended):
+### 1. 💴 Start All Services with Docker Compose
 
 ```bash
-# Run PostgreSQL for auth-service database
-docker run --name agenda-pg \
-  -e POSTGRES_PASSWORD=YOUR_POSTGRES_PASSWORD \
-  -e POSTGRES_DB=agenda_pulse_auth \
-  -p 5432:5432 \
-  -d postgres
-```
+# Start PostgreSQL, Kafka, Zookeeper, and Kafka UI
+cd path/to/project/root
 
----
+docker-compose up -d
+```
 
 ### 2. 🔧 Start Backend Services
 
 #### 🔐 Auth Service
 
-**Option 1**
-```bash
-mvn spring-boot:run -pl apps/backend/auth-service
-```
-
-**Option 2**
 ```bash
 cd apps/backend/auth-service
 ./mvnw spring-boot:run
@@ -128,14 +128,15 @@ cd apps/backend/auth-service
 
 #### 🌐 API Gateway
 
-**Option 1**
-```bash
-mvn spring-boot:run -pl apps/backend/api-gateway
-```
-
-**Option 2**
 ```bash
 cd apps/backend/api-gateway
+./mvnw spring-boot:run
+```
+
+#### 📅 Task Service
+
+```bash
+cd apps/backend/task-service
 ./mvnw spring-boot:run
 ```
 
@@ -144,7 +145,7 @@ cd apps/backend/api-gateway
 ### 3. 🎨 Start Frontend
 
 ```bash
-cd apps/frontend/webui
+cd apps/frontend/web-ui
 npm install
 npm run dev
 ```
@@ -153,10 +154,17 @@ npm run dev
 
 ## 📄 License
 
-[MIT License](LICENSE)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👥 Authors & Contributors
+
+- **Eyup Pastirmaci** - [@eyuppastirmaci](https://github.com/eyuppastirmaci)
 
 ---
 
 ## 🤝 Contributions
 
 Feel free to fork and contribute. PRs are welcome!
+
