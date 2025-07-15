@@ -31,6 +31,13 @@ Thumbs.db
 /apps/backend/task-service/*.log
 /apps/backend/task-service/src/main/resources/application.yml
 
+# === calendar-service ===
+/apps/backend/calendar-service/target/
+/apps/backend/calendar-service/.idea/
+/apps/backend/calendar-service/*.iml
+/apps/backend/calendar-service/*.log
+/apps/backend/calendar-service/src/main/resources/application.yml
+
 # === webui ===
 /apps/frontend/webui/node_modules/
 /apps/frontend/webui/.next/

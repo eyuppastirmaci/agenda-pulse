@@ -1,67 +1,87 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Task, TaskStatus, getTasks, updateTask, deleteTask } from "../api";
-import TaskItem from "./TaskItem";
-import CreateTaskModal from "./CreateTaskModal";
-import { Plus, Filter, ChevronLeft, ChevronRight, ListTodo } from "lucide-react";
+import {
+  CalendarEvent,
+  CalendarEventStatus,
+  getCalendarEvents,
+  updateCalendarEvent,
+  deleteCalendarEvent,
+} from "../api";
+import CalendarEventItem from "./CalendarEventItem";
+import CreateCalendarEventModal from "./CreateCalendarEventModal";
+import { 
+  Calendar, 
+  Plus, 
+  Filter, 
+  Clock, 
+  CheckCircle2, 
+  XCircle, 
+  Play,
+  ChevronLeft,
+  ChevronRight,
+  CalendarDays
+} from "lucide-react";
 
-export default function TaskList() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+export default function CalendarEventList() {
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<TaskStatus | undefined>(undefined);
+  const [filter, setFilter] = useState<CalendarEventStatus | undefined>(undefined);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
-    loadTasks();
+    loadEvents();
   }, [page, filter]);
 
-  const loadTasks = async () => {
+  const loadEvents = async () => {
     try {
       setLoading(true);
-      const response = await getTasks(page, 20, filter);
-      setTasks(response.content);
+      const response = await getCalendarEvents(page, 20, filter);
+      setEvents(response.content);
       setTotalPages(response.totalPages);
     } catch (error) {
-      console.error("Failed to load tasks:", error);
+      console.error("Failed to load calendar events:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleStatusChange = async (taskId: number, status: TaskStatus) => {
+  const handleStatusChange = async (
+    eventId: number,
+    status: CalendarEventStatus
+  ) => {
     try {
-      const updated = await updateTask(taskId, { status });
-      setTasks(tasks.map((t) => (t.id === taskId ? updated : t)));
+      const updated = await updateCalendarEvent(eventId, { status });
+      setEvents(events.map((e) => (e.id === eventId ? updated : e)));
     } catch (error) {
-      console.error("Failed to update task:", error);
+      console.error("Failed to update calendar event:", error);
     }
   };
 
-  const handleDelete = async (taskId: number) => {
-    if (!confirm("Are you sure you want to delete this task?")) return;
+  const handleDelete = async (eventId: number) => {
+    if (!confirm("Are you sure you want to delete this calendar event?")) return;
 
     try {
-      await deleteTask(taskId);
-      setTasks(tasks.filter((t) => t.id !== taskId));
+      await deleteCalendarEvent(eventId);
+      setEvents(events.filter((e) => e.id !== eventId));
     } catch (error) {
-      console.error("Failed to delete task:", error);
+      console.error("Failed to delete calendar event:", error);
     }
   };
 
-  const handleTaskCreated = (newTask: Task) => {
-    setTasks([newTask, ...tasks]);
+  const handleEventCreated = (newEvent: CalendarEvent) => {
+    setEvents([newEvent, ...events]);
     setShowCreateModal(false);
   };
 
   const filterButtons = [
-    { label: "All Tasks", value: undefined, icon: ListTodo },
-    { label: "To Do", value: TaskStatus.TODO },
-    { label: "In Progress", value: TaskStatus.IN_PROGRESS },
-    { label: "Completed", value: TaskStatus.COMPLETED },
-    { label: "Cancelled", value: TaskStatus.CANCELLED },
+    { label: "All Events", value: undefined, icon: CalendarDays },
+    { label: "Scheduled", value: CalendarEventStatus.SCHEDULED, icon: Clock },
+    { label: "In Progress", value: CalendarEventStatus.IN_PROGRESS, icon: Play },
+    { label: "Completed", value: CalendarEventStatus.COMPLETED, icon: CheckCircle2 },
+    { label: "Cancelled", value: CalendarEventStatus.CANCELLED, icon: XCircle },
   ];
 
   return (
@@ -70,19 +90,19 @@ export default function TaskList() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <ListTodo className="w-7 h-7 text-blue-600" />
-            My Tasks
+            <Calendar className="w-7 h-7 text-indigo-600" />
+            Calendar Events
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Manage and track your tasks efficiently
+            Schedule and manage your upcoming events
           </p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
           <Plus className="w-5 h-5" />
-          New Task
+          New Event
         </button>
       </div>
 
@@ -97,52 +117,55 @@ export default function TaskList() {
             <button
               key={btn.label}
               onClick={() => setFilter(btn.value)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
                 filter === btn.value
-                  ? "bg-blue-600 text-white shadow-md transform scale-105"
+                  ? "bg-indigo-600 text-white shadow-md transform scale-105"
                   : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
               }`}
             >
-              {btn.icon && <btn.icon className="w-4 h-4 inline mr-1.5" />}
+              <btn.icon className="w-4 h-4" />
               {btn.label}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Task List */}
+      {/* Content */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-16">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-gray-500">Loading tasks...</p>
+          <div className="relative">
+            <div className="w-16 h-16 border-4 border-indigo-200 rounded-full"></div>
+            <div className="w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin absolute inset-0"></div>
+          </div>
+          <p className="mt-4 text-gray-500">Loading calendar events...</p>
         </div>
-      ) : tasks.length === 0 ? (
-        <div className="text-center py-16 bg-gray-50 rounded-xl">
-          <ListTodo className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No tasks found</h3>
+      ) : events.length === 0 ? (
+        <div className="text-center py-16 bg-gradient-to-br from-gray-50 to-indigo-50 rounded-xl border-2 border-dashed border-gray-200">
+          <CalendarDays className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No events scheduled</h3>
           <p className="text-gray-500 mb-6">
-            {filter ? "No tasks match the selected filter." : "Get started by creating your first task!"}
+            {filter ? "No events match the selected filter." : "Start planning by creating your first event!"}
           </p>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
           >
             <Plus className="w-5 h-5" />
-            Create Task
+            Schedule Event
           </button>
         </div>
       ) : (
         <div className="space-y-3">
-          {tasks.map((task, index) => (
+          {events.map((event, index) => (
             <div
-              key={task.id}
+              key={event.id}
               className="transform transition-all duration-300 animate-fadeInUp"
               style={{
                 animationDelay: `${index * 50}ms`
               }}
             >
-              <TaskItem
-                task={task}
+              <CalendarEventItem
+                event={event}
                 onStatusChange={handleStatusChange}
                 onDelete={handleDelete}
               />
@@ -181,7 +204,7 @@ export default function TaskList() {
                   onClick={() => setPage(pageNum)}
                   className={`w-10 h-10 rounded-lg font-medium transition-all ${
                     pageNum === page
-                      ? "bg-blue-600 text-white"
+                      ? "bg-indigo-600 text-white"
                       : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
                   }`}
                 >
@@ -201,10 +224,10 @@ export default function TaskList() {
         </div>
       )}
 
-      <CreateTaskModal
+      <CreateCalendarEventModal
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
-        onTaskCreated={handleTaskCreated}
+        onEventCreated={handleEventCreated}
       />
 
 

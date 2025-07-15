@@ -8,25 +8,57 @@ It is built using a modular microservice architecture and modern frontend techno
 
 ## 📋 Development Roadmap
 
+### 🎯 **Core Features (MVP)**
 - ✅ API Gateway and health checks
 - ✅ User authentication (signup/login) with JWT
 - ✅ Task management (CRUD + Kafka events)
-- ☐ Calendar event creation & reminders
+- ✅ Calendar management (CRUD + Kafka events)
 - ☐ Notification delivery system (email, WebSocket, push)
-- ☐ Admin dashboard and user profile
-- ☐ Docker Compose + Jenkins CI/CD pipeline
+- ☐ User profiles & preferences (timezone, settings)
+
+### 📱 **User Experience**
+- ☐ Categories & tags (organize tasks/events)
+- ☐ Search & filters (find tasks/events quickly)
+
+### ⚡ **Productivity Features**
+- ☐ Recurring tasks & events (daily, weekly, monthly)
+- ☐ Time tracking & estimation
+- ☐ Task dependencies (block/unblock workflow)
+
+### 👥 **Collaboration**
+- ☐ Team workspaces (shared tasks/calendars)
+- ☐ Task assignment & delegation
+- ☐ Team calendar visibility
+- ☐ Comment system (task/event discussions)
+
+### 📊 **Analytics & Insights**
+- ☐ Personal productivity dashboard
+- ☐ Completion rate tracking
+- ☐ Time spent analytics
+- ☐ Export data (CSV, PDF reports)
+
+### 🔧 **DevOps & Production**
+- ☐ Docker Compose production setup
+- ☐ Basic monitoring (health metrics)
+- ☐ Jenkins CI/CD pipeline
+- ☐ Database backup automation
 
 ---
 
 ## 🛠️ Tech Stack
 
-### 🔧 Backend
+### 🔧 Backend Services
 
 - Java 21, Spring Boot 3.5
 - Spring Security, JPA, Actuator
-- PostgreSQL
-- Apache Kafka
+- PostgreSQL (Task & Calendar storage)
+- Apache Kafka (Event streaming)
 - Spring Cloud Gateway
+- Microservices:
+  - API Gateway (Service routing & auth)
+  - Auth Service (JWT authentication)
+  - Task Service (Task management)
+  - Calendar Service (Event & reminder management)
 
 ### 🎨 Frontend
 
@@ -88,6 +120,16 @@ cd apps/backend/task-service
 cp src/main/resources/application.example.yml src/main/resources/application.yml
 ```
 
+#### 📅 Calendar Service Configuration
+
+```bash
+# Navigate to calendar service directory
+cd apps/backend/calendar-service
+
+# Copy example configuration
+cp src/main/resources/application.example.yml src/main/resources/application.yml
+```
+
 ---
 
 ### 🎨 Frontend `.env` configuration
@@ -140,6 +182,13 @@ cd apps/backend/task-service
 ./mvnw spring-boot:run
 ```
 
+#### 📅 Calendar Service
+
+```bash
+cd apps/backend/calendar-service
+./mvnw spring-boot:run
+```
+
 ---
 
 ### 3. 🎨 Start Frontend
@@ -167,4 +216,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🤝 Contributions
 
 Feel free to fork and contribute. PRs are welcome!
-

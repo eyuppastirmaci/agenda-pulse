@@ -2,10 +2,12 @@ package com.agendapulse.task;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-public class TaskApplication {
+@EnableJpaAuditing
+public class TaskServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(TaskApplication.class, args);
+        SpringApplication.run(TaskServiceApplication.class, args);
     }
 }

@@ -5,6 +5,8 @@ import { z } from "zod";
 import { useState } from "react";
 import { createTask, Task } from "../api";
 import { getErrorMessage } from "@/utils";
+import Modal from "@/components/Modal";
+import { Calendar, FileText, Type, X, Loader2 } from "lucide-react";
 
 const createTaskSchema = z.object({
   title: z.string().min(1, "Title is required").max(200, "Title is too long"),
@@ -16,11 +18,13 @@ const createTaskSchema = z.object({
 });
 
 interface CreateTaskModalProps {
+  isOpen: boolean;
   onClose: () => void;
   onTaskCreated: (task: Task) => void;
 }
 
 export default function CreateTaskModal({
+  isOpen,
   onClose,
   onTaskCreated,
 }: CreateTaskModalProps) {
@@ -52,9 +56,18 @@ export default function CreateTaskModal({
   });
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-        <h2 className="text-xl font-bold mb-4">Create New Task</h2>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <div className="relative">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-gray-900">Create New Task</h2>
+          <button
+            onClick={onClose}
+            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
         <form
           onSubmit={(e) => {
@@ -62,8 +75,9 @@ export default function CreateTaskModal({
             e.stopPropagation();
             form.handleSubmit();
           }}
-          className="space-y-4"
+          className="space-y-5"
         >
+          {/* Title Field */}
           <div>
             <form.Field
               name="title"
@@ -71,9 +85,11 @@ export default function CreateTaskModal({
                 <>
                   <label
                     htmlFor={field.name}
-                    className="block text-sm font-medium mb-1"
+                    className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
                   >
-                    Title *
+                    <Type className="w-4 h-4 text-gray-500" />
+                    Title
+                    <span className="text-red-500">*</span>
                   </label>
                   <input
                     id={field.name}
@@ -81,11 +97,12 @@ export default function CreateTaskModal({
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     placeholder="Enter task title"
                   />
                   {getErrorMessage(field.state.meta.errors) && (
-                    <p className="mt-1 text-sm text-red-600">
+                    <p className="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                      <span className="inline-block w-1 h-1 bg-red-600 rounded-full" />
                       {getErrorMessage(field.state.meta.errors)}
                     </p>
                   )}
@@ -94,6 +111,7 @@ export default function CreateTaskModal({
             />
           </div>
 
+          {/* Description Field */}
           <div>
             <form.Field
               name="description"
@@ -101,21 +119,24 @@ export default function CreateTaskModal({
                 <>
                   <label
                     htmlFor={field.name}
-                    className="block text-sm font-medium mb-1"
+                    className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
                   >
+                    <FileText className="w-4 h-4 text-gray-500" />
                     Description
+                    <span className="text-xs text-gray-400">(Optional)</span>
                   </label>
                   <textarea
                     id={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    rows={3}
-                    placeholder="Enter task description (optional)"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                    rows={4}
+                    placeholder="Add a detailed description..."
                   />
                   {getErrorMessage(field.state.meta.errors) && (
-                    <p className="mt-1 text-sm text-red-600">
+                    <p className="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                      <span className="inline-block w-1 h-1 bg-red-600 rounded-full" />
                       {getErrorMessage(field.state.meta.errors)}
                     </p>
                   )}
@@ -124,6 +145,7 @@ export default function CreateTaskModal({
             />
           </div>
 
+          {/* Due Date Field */}
           <div>
             <form.Field
               name="dueDate"
@@ -131,9 +153,11 @@ export default function CreateTaskModal({
                 <>
                   <label
                     htmlFor={field.name}
-                    className="block text-sm font-medium mb-1"
+                    className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
                   >
+                    <Calendar className="w-4 h-4 text-gray-500" />
                     Due Date
+                    <span className="text-xs text-gray-400">(Optional)</span>
                   </label>
                   <input
                     id={field.name}
@@ -141,24 +165,32 @@ export default function CreateTaskModal({
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    min={new Date().toISOString().slice(0, 16)}
                   />
                 </>
               )}
             />
           </div>
 
+          {/* Error Message */}
           {error && (
-            <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
-              {error}
+            <div className="p-4 text-sm text-red-600 bg-red-50 rounded-lg border border-red-200 flex items-start gap-2">
+              <div className="mt-0.5">
+                <div className="w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
+                  <X className="w-2.5 h-2.5 text-white" />
+                </div>
+              </div>
+              <span>{error}</span>
             </div>
           )}
 
-          <div className="flex justify-end gap-3 pt-4">
+          {/* Actions */}
+          <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
+              className="px-5 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors"
             >
               Cancel
             </button>
@@ -168,15 +200,22 @@ export default function CreateTaskModal({
                 <button
                   type="submit"
                   disabled={!canSubmit}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl disabled:shadow-none"
                 >
-                  {isSubmitting ? "Creating..." : "Create Task"}
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Creating...
+                    </>
+                  ) : (
+                    "Create Task"
+                  )}
                 </button>
               )}
             />
           </div>
         </form>
       </div>
-    </div>
+    </Modal>
   );
 }
