@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Bell, CheckCheck } from 'lucide-react';
+import { Bell, CheckCheck, ClipboardList, Clock, CalendarDays, BellRing, XCircle, Mail } from 'lucide-react';
 import { useNotificationContext } from '@/contexts/NotificationContext';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -27,18 +27,18 @@ export const NotificationBell: React.FC = () => {
       case 'TASK_CREATED':
       case 'TASK_UPDATED':
       case 'TASK_ASSIGNED':
-        return '📋';
+        return <ClipboardList className="h-6 w-6" />;
       case 'TASK_DUE_SOON':
-        return '⏰';
+        return <Clock className="h-6 w-6" />;
       case 'CALENDAR_EVENT_CREATED':
       case 'CALENDAR_EVENT_UPDATED':
-        return '📅';
+        return <CalendarDays className="h-6 w-6" />;
       case 'CALENDAR_EVENT_REMINDER':
-        return '🔔';
+        return <BellRing className="h-6 w-6" />;
       case 'CALENDAR_EVENT_CANCELLED':
-        return '❌';
+        return <XCircle className="h-6 w-6" />;
       default:
-        return '📬';
+        return <Mail className="h-6 w-6" />;
     }
   };
 
