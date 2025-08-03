@@ -61,7 +61,7 @@ notification:
     app-destination-prefix: /app
 
 jwt:
-  secret: your_jwt_secret_key_here_same_as_auth_service
+  secret: ${JWT_SECRET}
 
 management:
   endpoints:
