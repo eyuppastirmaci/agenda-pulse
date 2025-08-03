@@ -109,11 +109,7 @@ export default function CalendarEventItem({
                   >
                     {event.title}
                   </h3>
-                  <span
-                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${currentStatus.bgColor} ${currentStatus.color} ${currentStatus.borderColor} border`}
-                  >
-                    {currentStatus.label}
-                  </span>
+                  
                 </div>
 
                 {/* Description */}
