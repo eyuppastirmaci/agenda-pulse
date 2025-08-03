@@ -4,7 +4,7 @@ AgendaPulse is a lightweight, self-hosted productivity tool for individuals and 
 
 It is built using a modular microservice architecture and modern frontend technologies.
 
----
+![AgendaPulse Dashboard](./.github/assets/dashboard.jpg)
 
 ## 📋 Development Roadmap
 
