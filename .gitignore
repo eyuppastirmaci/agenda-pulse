@@ -38,6 +38,13 @@ Thumbs.db
 /apps/backend/calendar-service/*.log
 /apps/backend/calendar-service/src/main/resources/application.yml
 
+# === notification-service ===
+/apps/backend/notification-service/target/
+/apps/backend/notification-service/.idea/
+/apps/backend/notification-service/*.iml
+/apps/backend/notification-service/*.log
+/apps/backend/notification-service/src/main/resources/application.yml
+
 # === webui ===
 /apps/frontend/webui/node_modules/
 /apps/frontend/webui/.next/

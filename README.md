@@ -13,7 +13,7 @@ It is built using a modular microservice architecture and modern frontend techno
 - ✅ User authentication (signup/login) with JWT
 - ✅ Task management (CRUD + Kafka events)
 - ✅ Calendar management (CRUD + Kafka events)
-- ☐ Notification delivery system (email, WebSocket, push)
+- ✅ Notification delivery system (email, WebSocket)
 - ☐ User profiles & preferences (timezone, settings)
 
 ### 📱 **User Experience**
@@ -37,6 +37,10 @@ It is built using a modular microservice architecture and modern frontend techno
 - ☐ Time spent analytics
 - ☐ Export data (CSV, PDF reports)
 
+### 📄 **Documentation**
+- ☐ Swagger API documentation
+- ☐ Postman API documentation
+
 ### 🔧 **DevOps & Production**
 - ☐ Docker Compose production setup
 - ☐ Basic monitoring (health metrics)
@@ -59,6 +63,7 @@ It is built using a modular microservice architecture and modern frontend techno
   - Auth Service (JWT authentication)
   - Task Service (Task management)
   - Calendar Service (Event & reminder management)
+  - Notification Service (Email & WebSocket notifications)
 
 ### 🎨 Frontend
 
@@ -130,6 +135,16 @@ cd apps/backend/calendar-service
 cp src/main/resources/application.example.yml src/main/resources/application.yml
 ```
 
+#### 🔔 Notification Service Configuration
+
+```bash
+# Navigate to notification service directory
+cd apps/backend/notification-service
+
+# Copy example configuration
+cp src/main/resources/application.example.yml src/main/resources/application.yml
+```
+
 ---
 
 ### 🎨 Frontend `.env` configuration
@@ -186,6 +201,13 @@ cd apps/backend/task-service
 
 ```bash
 cd apps/backend/calendar-service
+./mvnw spring-boot:run
+```
+
+#### 🔔 Notification Service
+
+```bash
+cd apps/backend/notification-service
 ./mvnw spring-boot:run
 ```
 

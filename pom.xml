@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version> 
+        <version>3.5.3</version>
         <relativePath/>
     </parent>
 
@@ -38,5 +38,6 @@
         <module>apps/backend/auth-service</module>
         <module>apps/backend/api-gateway</module>
         <module>apps/backend/task-service</module>
+        <module>apps/backend/notification-service</module>
     </modules>
 </project>
